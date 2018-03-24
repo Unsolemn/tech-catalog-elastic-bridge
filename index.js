@@ -8,12 +8,20 @@ var con = mysql.createConnection({
     database: "moto"
 });
 
+var fieldsCombined = {
+    "Seat height":"([0-9]*\.[0-9]{2} ccm)|([0-9]*\.[0-9]{2} cubic inches)"
+};
+
 con.connect(function(err) {
     if (err) throw err;
     console.log("Connected!");
-    var sql = "SELECT * FROM items_bikez_3 LIMIT 1";
-    con.query(sql, function (err, result) {
+    var sql = "SELECT * FROM items_bikez_3 LIMIT 2";
+    con.query(sql, function (err, result, fields) {
         if (err) throw err;
-        console.log("Result: " + util.inspect(result));
+        result.forEach(function(value){
+            for (var key in value) {
+                console.log(key, value[key]);
+            }
+        });
     });
 });
