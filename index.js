@@ -9,7 +9,7 @@ var con = mysql.createConnection({
 });
 
 var fieldsCombined = {
-    "Seat height":"([0-9]*\.[0-9]{2} ccm)|([0-9]*\.[0-9]{2} cubic inches)"
+    "Displacement":"([0-9]*\.[0-9]{2} ccm)|([0-9]*\.[0-9]{2} cubic inches)"
 };
 
 con.connect(function(err) {
@@ -20,7 +20,9 @@ con.connect(function(err) {
         if (err) throw err;
         result.forEach(function(value){
             for (var key in value) {
-                console.log(key, value[key]);
+                for (var keyOfFieldCombined in fieldsCombined) {
+                    if(keyOfFieldCombined==key) console.log(key, value[key]);
+                }
             }
         });
     });
