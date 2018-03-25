@@ -8,10 +8,6 @@ var con = mysql.createConnection({
     database: "moto"
 });
 
-var fieldsCombined = {
-    "Displacement":"([0-9]*\.[0-9]{2} ccm)|([0-9]*\.[0-9]{2} cubic inches)"
-};
-
 con.connect(function(err) {
     if (err) throw err;
     console.log("Connected!");
@@ -20,8 +16,11 @@ con.connect(function(err) {
         if (err) throw err;
         result.forEach(function(value){
             for (var key in value) {
-                for (var keyOfFieldCombined in fieldsCombined) {
-                    if(keyOfFieldCombined==key) console.log(key, value[key]);
+                var matches=[];
+                if(value[key].length){
+                    console.log(key, ":", value[key]);
+                    if(key=="Displacement") matches = value[key].match(/([0-9]*.[0-9]{2} ccm)|([0-9]*.[0-9]{2} cubic inches)/g);
+                    if(matches.length) console.log(util.inspect(matches));
                 }
             }
         });
